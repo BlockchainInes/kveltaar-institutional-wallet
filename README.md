@@ -18,16 +18,13 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 </p>
-
 ## Continuous Integration
 
-| Stage | Tool |
-|-------|------|
-| Build | Forge |
-| Test | Foundry |
+| Pipeline | Status |
+|----------|--------|
+| CI | GitHub Actions |
+| Tests | Foundry Test Suite |
 | Static Analysis | Slither |
-| CI Pipeline | GitHub Actions |
-
 ---
 
 # Executive Summary
