@@ -62,6 +62,47 @@ The implementation follows a security-first engineering approach and demonstrate
 # Architecture
 
 ```text
+                               ERC-4337 Bundler
+                                       |
+                                       | UserOperation
+                                       v
+                         +-----------------------------+
+                         |         EntryPoint          |
+                         |            v0.9             |
+                         +--------------+--------------+
+                                        |
+             +--------------------------+--------------------------+
+             |                                                     |
+             | Account deployment path                             | Validation and execution path
+             |                                                     |
+             | initCode / factory call                             | validateUserOp()
+             v                                                     v
++--------------------------------------+     +--------------------------------------+
+|       KveltaarWalletFactory          |     |   KveltaarInstitutionalWallet       |
++--------------------------------------+     +--------------------------------------+
+| CREATE2 deployment                   |---->| ERC-4337 validation                  |
+| Deterministic address                |     | Owner signature verification         |
+| Wallet provisioning                  |     | Role-based access control            |
++--------------------------------------+     | Treasury controls                    |
+                                             | Operator execution                   |
+                                             | Compliance pause controls            |
+                                             | EntryPoint deposit management        |
+                                             | Reentrancy protection                |
+                                             +-------------------+------------------+
+                                                                 |
+                                                                 | execute()
+                                                                 v
+                                             +--------------------------------------+
+                                             | External contracts and asset flows   |
+                                             | Ethereum Sepolia                     |
+                                             +--------------------------------------+
+```
+
+
+
+# Architecture
+
+```text
                                       ERC-4337 Bundler
                                              │
                                              │ UserOperation
