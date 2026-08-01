@@ -28,25 +28,6 @@
 
 </p>
 
-<p align="center">
-
-![Solidity](https://img.shields.io/badge/Solidity-0.8.28-5E5E5E?style=for-the-badge&logo=solidity)
-
-![Foundry](https://img.shields.io/badge/Built%20with-Foundry-black?style=for-the-badge)
-
-![ERC-4337](https://img.shields.io/badge/ERC--4337-Account%20Abstraction-0A84D6?style=for-the-badge)
-
-![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-Contracts-0A84D6?style=for-the-badge)
-
-![License](https://img.shields.io/badge/License-MIT-64B000?style=for-the-badge)
-
-![CI](https://img.shields.io/badge/CI-Enabled-0A84D6?style=for-the-badge)
-
-![Tests](https://img.shields.io/badge/Tests-18%20Passing-64B000?style=for-the-badge)
-
-![Slither](https://img.shields.io/badge/Slither-Static%20Analysis-0A84D6?style=for-the-badge)
-
-</p>
 ---
 
 # Executive Summary
