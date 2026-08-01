@@ -1,66 +1,215 @@
-## Foundry
+# Kveltaar Institutional Wallet
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Enterprise-grade ERC-4337 smart account designed for institutional digital asset management.
 
-Foundry consists of:
+Built with Solidity 0.8.28, OpenZeppelin, ERC-4337 Account Abstraction and Foundry.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+---
 
-## Documentation
+## Overview
 
-https://book.getfoundry.sh/
+Kveltaar Institutional Wallet is a modular smart account architecture implementing ERC-4337 Account Abstraction for institutional environments.
 
-## Usage
+The wallet introduces role-based operational governance, treasury separation, emergency controls and secure transaction execution while remaining compatible with the ERC-4337 EntryPoint architecture.
 
-### Build
+The project consists of:
 
-```shell
-$ forge build
+- Institutional Smart Wallet
+- CREATE2 Wallet Factory
+- Deterministic wallet deployment
+- Full Foundry test suite
+- Static security analysis with Slither
+- Verified contracts on Sepolia
+
+---
+
+## Key Features
+
+- ERC-4337 Account Abstraction
+- CREATE2 deterministic deployment
+- Role-based access control
+- Treasury role
+- Operator role
+- Compliance Officer role
+- Emergency pause / unpause
+- Reentrancy protection
+- EntryPoint deposit management
+- Secure native asset transfers
+- Unauthorized execution protection
+- Institutional governance model
+
+---
+
+## Architecture
+
+```text
+                       +----------------------+
+                       |     EntryPoint       |
+                       |      ERC-4337        |
+                       +----------+-----------+
+                                  |
+                                  |
+                    validateUserOp()
+                                  |
+                                  v
+          +---------------------------------------+
+          | KveltaarInstitutionalWallet           |
+          |---------------------------------------|
+          | Owner                                |
+          | Treasury Role                        |
+          | Operator Role                        |
+          | Compliance Role                      |
+          | Pause / Unpause                      |
+          | Native Asset Management              |
+          +------------------+-------------------+
+                             |
+                             |
+                  CREATE2 Deployment
+                             |
+                             |
+          +------------------v-------------------+
+          | KveltaarWalletFactory               |
+          +--------------------------------------+
 ```
 
-### Test
+---
 
-```shell
-$ forge test
+## Technology Stack
+
+- Solidity 0.8.28
+- Foundry
+- OpenZeppelin Contracts
+- ERC-4337 Account Abstraction
+- EntryPoint
+- CREATE2
+- Slither
+- GitHub Actions
+- Sepolia Testnet
+
+---
+
+## Smart Contracts
+
+### Wallet Factory
+
+https://sepolia.etherscan.io/address/0xF77Cc2F14D6B2C9E3c19345F5A7f3E791D7445F6
+
+Verified on Etherscan
+
+### Institutional Wallet
+
+https://sepolia.etherscan.io/address/0xea3e3D9bc728421367e2D63283B7F2aB6957fbE2
+
+Verified on Etherscan
+
+---
+
+## Security
+
+Security mechanisms implemented:
+
+- Role-based authorization
+- AccessControl
+- ReentrancyGuard
+- Pausable emergency stop
+- EntryPoint validation
+- Unauthorized execution protection
+- Treasury withdrawal restrictions
+
+Static analysis performed using:
+
+- Slither
+
+Continuous Integration:
+
+- GitHub Actions
+- Automatic build
+- Automatic formatting checks
+- Automatic test execution
+
+---
+
+## Test Coverage
+
+Current test suite validates:
+
+- Wallet initialization
+- Role assignment
+- Treasury deposit
+- Treasury withdrawal
+- EntryPoint deposits
+- Native asset reception
+- Operator execution
+- Unauthorized execution rejection
+- Pause functionality
+- Unpause functionality
+- Factory deployment
+- Deterministic CREATE2 addresses
+
+---
+
+## Test Results
+
+### Development Environment
+
+![Foundry Overview](docs/images/foundry-tests-overview.png)
+
+---
+
+### Successful Test Execution
+
+![Foundry Tests](docs/images/foundry-tests-summary.png)
+
+All smart contract tests pass successfully.
+
+```
+18 tests passed
+0 failed
+0 skipped
 ```
 
-### Format
+---
 
-```shell
-$ forge fmt
+## Static Analysis
+
+Static security analysis completed using Slither.
+
+No critical security vulnerabilities identified.
+
+---
+
+## Build
+
+```bash
+forge build
 ```
 
-### Gas Snapshots
+Run tests
 
-```shell
-$ forge snapshot
+```bash
+forge test -vvv
 ```
 
-### Anvil
+Run Slither
 
-```shell
-$ anvil
+```bash
+slither .
 ```
 
-### Deploy
+---
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+## Project Structure
+
+```
+src/
+script/
+test/
+docs/
+lib/
 ```
 
-### Cast
+---
 
-```shell
-$ cast <subcommand>
-```
+## License
 
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+MIT
