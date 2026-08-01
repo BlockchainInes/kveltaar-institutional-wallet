@@ -53,59 +53,40 @@ The implementation follows a security-first engineering approach and demonstrate
 # Architecture
 
 ```text
-                                     ERC-4337
-                                   EntryPoint
-                                        │
-                                        │
-                         validateUserOperation()
-                                        │
-                                        ▼
-                    ┌─────────────────────────────────────┐
-                    │     KveltaarWalletFactory           │
-                    │                                     │
-                    │  • CREATE2 Deployment               │
-                    │  • Deterministic Addresses          │
-                    │  • Wallet Provisioning              │
-                    └─────────────────────────────────────┘
-                                        │
-                             CREATE2 Deployment
-                                        │
-                                        ▼
-          ┌──────────────────────────────────────────────────────────────┐
-          │              KveltaarInstitutionalWallet                     │
-          │--------------------------------------------------------------│
-          │                                                              │
-          │  Owner                                                       │
-          │  RBAC (AccessControl)                                        │
-          │  Treasury Management                                         │
-          │  Operator Execution                                          │
-          │  Compliance Controls                                         │
-          │  ERC-4337 Validation                                         │
-          │  Native Asset Management                                     │
-          │  Pause / Unpause                                             │
-          │  Reentrancy Protection                                       │
-          │                                                              │
-          └──────────────────────────────────────────────────────────────┘
-                                        │
-                                        ▼
-                          Ethereum Sepolia Network
-```
-
----
-
-# Technology Stack
-
-| Layer | Technology |
-|-------|------------|
-| Language | Solidity 0.8.28 |
-| Framework | Foundry |
-| Standard | ERC-4337 |
-| Security | OpenZeppelin |
-| Deployment | CREATE2 |
-| Network | Sepolia |
-| Testing | Forge |
-| Static Analysis | Slither |
-| CI | GitHub Actions |
+                                      ERC-4337 Bundler
+                                             │
+                                             │ UserOperation
+                                             ▼
+                                  ┌───────────────────────┐
+                                  │      EntryPoint       │
+                                  │        v0.9           │
+                                  └───────────┬───────────┘
+                                              │
+                     ┌────────────────────────┴────────────────────────┐
+                     │                                                 │
+                     │ Account deployment path                         │ Validation and execution path
+                     │                                                 │
+                     │ initCode / factory call                         │ validateUserOp()
+                     ▼                                                 ▼
+          ┌──────────────────────────────┐              ┌─────────────────────────────────────┐
+          │   KveltaarWalletFactory      │              │ KveltaarInstitutionalWallet         │
+          │                              │              │                                     │
+          │ • CREATE2 deployment         │─────────────▶│ • ERC-4337 validation               │
+          │ • Deterministic address      │              │ • Owner signature verification      │
+          │ • Wallet provisioning        │              │ • RBAC                              │
+          └──────────────────────────────┘              │ • Treasury controls                 │
+                                                        │ • Operator execution                 │
+                                                        │ • Compliance pause controls          │
+                                                        │ • EntryPoint deposit management      │
+                                                        │ • Reentrancy protection              │
+                                                        └──────────────────┬──────────────────┘
+                                                                           │
+                                                                           │ execute()
+                                                                           ▼
+                                                        ┌─────────────────────────────────────┐
+                                                        │ External contracts and asset flows  │
+                                                        │ on Ethereum Sepolia                 │
+                                                        └─────────────────────────────────────┘
 
 ---
 
@@ -125,6 +106,30 @@ The implementation follows a security-first engineering approach and demonstrate
 ├── LICENSE
 └── README.md
 ```
+
+---
+
+# Execution Flow
+
+The architecture supports two independent operational paths within the ERC-4337 lifecycle.
+
+## Initial Wallet Deployment (Counterfactual Deployment)
+
+1. A Bundler submits a `UserOperation` containing deployment information.
+2. The ERC-4337 `EntryPoint` invokes `KveltaarWalletFactory`.
+3. The factory deploys a new `KveltaarInstitutionalWallet` using **CREATE2**, ensuring a deterministic wallet address.
+4. After deployment, the `EntryPoint` immediately invokes `validateUserOp()` on the newly created wallet.
+5. Once validation succeeds, the requested operation is executed.
+
+---
+
+## Existing Wallet Execution
+
+1. A Bundler submits a `UserOperation` for an already deployed wallet.
+2. The ERC-4337 `EntryPoint` calls `validateUserOp()` directly on `KveltaarInstitutionalWallet`.
+3. The wallet verifies the owner's authorization and enforces all institutional security controls.
+4. Access control, treasury restrictions, pause state and execution permissions are evaluated.
+5. Upon successful validation, the requested transaction is executed.
 
 ---
 
