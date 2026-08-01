@@ -18,13 +18,15 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 </p>
-## Continuous Integration
+<p align="left">
 
-| Pipeline | Status |
-|----------|--------|
-| CI | GitHub Actions |
-| Tests | Foundry Test Suite |
-| Static Analysis | Slither |
+![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue?style=for-the-badge)
+
+![Tests](https://img.shields.io/badge/Tests-Foundry-success?style=for-the-badge)
+
+![Security](https://img.shields.io/badge/Slither-Static%20Analysis-orange?style=for-the-badge)
+
+</p>
 ---
 
 # Executive Summary
