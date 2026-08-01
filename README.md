@@ -199,7 +199,7 @@ The implementation includes multiple security mechanisms:
 
 ---
 
-# Verified Deployments
+# Verified Smart Contracts
 
 ## Sepolia Testnet
 
