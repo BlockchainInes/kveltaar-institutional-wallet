@@ -19,6 +19,15 @@
 
 </p>
 
+## Continuous Integration
+
+| Stage | Tool |
+|-------|------|
+| Build | Forge |
+| Test | Foundry |
+| Static Analysis | Slither |
+| CI Pipeline | GitHub Actions |
+
 ---
 
 # Executive Summary
